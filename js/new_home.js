@@ -26,10 +26,10 @@ const createInnerHtml = () => {
             <td>${empPayrollData._salary}</td>
             <td>${stringifyDate(empPayrollData._startDate)}</td>
             <td>
-                <img name="${empPayrollData._id}" onclick="remove(this)"
+                <img id="${empPayrollData._id}" onclick="remove(this)"
                     src="/assets/images/delete-black-18dp.svg"
                     alt="delete">
-                <img name="${empPayrollData._id} onclick="update(this)"
+                <img id="${empPayrollData._id}" onclick="update(this)"
                     src="/assets/images/create-black-18dp.svg" alt="edit">
             </td>
         </tr>
@@ -50,9 +50,28 @@ const getDeptHtml = (deptList) => {
     return deptHtml;
 }
 
+//remove
+
 const remove = (node) => {
+    console.log(node,empPayrollList);
     empPayrollList.splice(parseInt(node.id), 1);
     localStorage.setItem("EmployeePayrollList", JSON.stringify(empPayrollList));
     document.querySelector(".emp-count").textContent = empPayrollList.length;
     createInnerHtml();
+    localStorage.removeItem('editEmp');
+}
+
+//update
+const update = (node) =>{
+    //debugger;
+    let empPayrollData = empPayrollList.find(empData => empData._id == node.id)
+     if (!empPayrollData) return;
+     localStorage.setItem('editEmp', JSON.stringify(empPayrollData))
+     window.location.replace("employeePayroll.html");
+
+
+}
+const test = (node) =>{
+   alert("called");
+
 }
